@@ -7,12 +7,13 @@ from api.utils import generate_sitemap, APIException
 
 api = Blueprint('api', __name__)
 
-
-@api.route('/hello', methods=['POST', 'GET'])
-def handle_hello():
-
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
-    }
-
-    return jsonify(response_body), 200
+@api.route('/singup', methods=['POST'])
+def singup():
+    body = request.json
+    email = body.get("email")
+    password = body.get("password")
+    
+    if email is None or password is None:
+        return jsonify({"message": "bad credentials"}), 400
+    
+    return([])
