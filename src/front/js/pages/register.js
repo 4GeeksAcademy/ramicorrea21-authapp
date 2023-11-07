@@ -1,16 +1,14 @@
 import React, {useState} from 'react'
 import { useContext } from 'react'
 import { Context } from '../store/appContext'
-import {useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 export const Register = () => {
-    const Navigate = useNavigate()
     const {actions, store} = useContext(Context)
     const initialState = {
         email : "",
         password : ""
     }
     const [user, setUser] = useState(initialState)
-
     const handleChange = (e) =>{
         setUser({
             ...user,
@@ -22,20 +20,16 @@ export const Register = () => {
         e.preventDefault()
         actions.registerUser(user)
     }
-
-    if(store.userCreated === true){
-        Navigate('/login')
-    }
-
     return (
         <>
+            {store.userCreated === true && <Navigate to={"/login"}/>}
             <h1 className='text-center'>Please complete the form to register a new user</h1>
             <div className='d-flex justify-content-center'>
                 <form className='mt-4' onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                         <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" value={user.email}  onChange={handleChange} />
-                        <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+                        <div id="emailHelp" className="form-text">Already have an account? Log In</div>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="exampleInputPassword1" className="form-label">Password</label>

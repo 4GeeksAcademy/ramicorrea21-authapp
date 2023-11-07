@@ -14,7 +14,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				},
 			],
-			userCreated : false
+			userCreated : false,
+			token: sessionStorage.getItem("token") || null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -62,6 +63,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 						setStore({
 							userCreated : true
 						})
+					}else{
+						setStore({
+							userCreated : false
+						})
 					}
 				})
 
@@ -76,7 +81,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 					body: JSON.stringify(user)
 				})
 				.then(res => res.json())
-				.then(data => sessionStorage.setItem("token", data.token))
+				.then(data => {
+					sessionStorage.setItem("token", data.token)
+					setStore({
+						token:data.token
+					})
+				
+			})
+			},
+			logout : () =>{
+				sessionStorage.removeItem("token")
+				setStore({
+					token:null
+				})
 			}
 		}
 	};
